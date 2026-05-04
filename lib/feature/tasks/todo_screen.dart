@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/components/task_list_widget.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
-import 'package:tasky_app/widgets/task_list_widget.dart';
+
 import '../../model/task_model.dart';
 
 class TodoScreen extends StatefulWidget {

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 
+import '../../core/components/task_list_widget.dart';
 import '../../model/task_model.dart';
-import '../../widgets/task_list_widget.dart';
 
 class CompletedScreen extends StatefulWidget {
   const CompletedScreen({super.key});

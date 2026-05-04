@@ -5,8 +5,9 @@ import 'package:tasky_app/core/enums/popup_item_actions_enum.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/model/task_model.dart';
-import '../core/services/preferences_manager.dart';
-import '../core/widgets/custom_check_box.dart';
+
+import '../services/preferences_manager.dart';
+import '../widgets/custom_check_box.dart';
 
 class TaskItemWidget extends StatelessWidget {
   const TaskItemWidget({

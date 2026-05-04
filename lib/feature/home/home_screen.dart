@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/components/sliver_task_list_widget.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
+import 'package:tasky_app/feature/home/components/archieved_task_widget.dart';
+import 'package:tasky_app/feature/home/components/high_priority_widget.dart';
 import 'package:tasky_app/model/task_model.dart';
-import 'package:tasky_app/widgets/archieved_task_widget.dart';
-import 'package:tasky_app/widgets/high_priority_widget.dart';
-import 'package:tasky_app/widgets/sliver_task_list_widget.dart';
 
 import '../../core/services/preferences_manager.dart';
 import '../add_task/add_task_screen.dart';
