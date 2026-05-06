@@ -75,6 +75,7 @@ class TasksController with ChangeNotifier {
     tasks[newIndex] = completeTasks[index];
     PreferencesManager().setString(StorageKey.tasks, jsonEncode(tasks));
     _loadTasks();
+    //
   }
 
   highPriorityTaskIsDone(bool? value, int? index) async {
