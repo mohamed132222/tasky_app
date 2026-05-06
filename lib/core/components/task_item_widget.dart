@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/enums/popup_item_actions_enum.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
@@ -203,7 +204,9 @@ class TaskItemWidget extends StatelessWidget {
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
                       List<dynamic> taskList = [];
-                      final taskJson = PreferencesManager().getString("tasks");
+                      final taskJson = PreferencesManager().getString(
+                        StorageKey.tasks,
+                      );
                       if (taskJson != null) {
                         taskList = jsonDecode(taskJson);
                       }
@@ -220,7 +223,7 @@ class TaskItemWidget extends StatelessWidget {
                       );
                       taskList[index] = newModel;
                       await PreferencesManager().setString(
-                        "tasks",
+                        StorageKey.tasks,
                         jsonEncode(taskList),
                       );
                       Navigator.of(context).pop(true);

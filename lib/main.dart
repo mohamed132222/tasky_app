@@ -3,6 +3,8 @@ import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/light_theme.dart';
 import 'package:tasky_app/feature/navigation/main_screen.dart';
 import 'package:tasky_app/feature/welcome/welcome_screen.dart';
+
+import 'core/constant/storage_key.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/theme_controller.dart';
 
@@ -10,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await PreferencesManager().init();
-  String? username = PreferencesManager().getString("username");
+  String? username = PreferencesManager().getString(StorageKey.userName);
   ThemeController().init();
   runApp(TaskyApp(username: username));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 
@@ -82,11 +83,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       //save data {shared preferences}
 
                       await PreferencesManager().setString(
-                        "quote",
+                        StorageKey.quote,
                         motivationQuoteController.value.text,
                       );
                       await PreferencesManager().setString(
-                        "username",
+                        StorageKey.userName,
                         usernameController.value.text,
                       );
                       Navigator.of(context).pop(true);

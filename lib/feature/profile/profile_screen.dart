@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
@@ -32,11 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void loadUserData() async {
     setState(() {
-      userName = PreferencesManager().getString("username");
+      userName = PreferencesManager().getString(StorageKey.userName);
       quote =
-          PreferencesManager().getString("quote") ??
+          PreferencesManager().getString(StorageKey.quote) ??
           "One task at a time. One step closer.";
-      imagePath = PreferencesManager().getString("image_path");
+      imagePath = PreferencesManager().getString(StorageKey.imagePath);
       isLoading = false;
     });
   }
@@ -174,10 +175,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Divider(thickness: 1),
                 ListTile(
                   onTap: () async {
-                    PreferencesManager().remove("username");
-                    PreferencesManager().remove("quote");
-                    PreferencesManager().remove("tasks");
-                    PreferencesManager().remove("image_path");
+                    PreferencesManager().remove(StorageKey.userName);
+                    PreferencesManager().remove(StorageKey.quote);
+                    PreferencesManager().remove(StorageKey.tasks);
+                    PreferencesManager().remove(StorageKey.imagePath);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => WelcomeScreen()),
@@ -208,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       file.path,
     ).copy("${dirApp.path}/${file.name}}");
 
-    PreferencesManager().setString("image_path", imagePath.path);
+    PreferencesManager().setString(StorageKey.imagePath, imagePath.path);
   }
 }
 

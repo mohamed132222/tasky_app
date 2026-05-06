@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tasky_app/core/components/task_list_widget.dart';
+import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 
 import '../../model/task_model.dart';
@@ -29,7 +30,7 @@ class _TodoScreenState extends State<TodoScreen> {
       isLoading = true;
     });
 
-    final taskJson = PreferencesManager().getString("tasks");
+    final taskJson = PreferencesManager().getString(StorageKey.tasks);
     List<TaskModel> loadedTasks = [];
 
     if (taskJson != null) {
@@ -48,7 +49,7 @@ class _TodoScreenState extends State<TodoScreen> {
 
   _onDelete(int? id) async {
     List<TaskModel> allTask = [];
-    final taskJson = PreferencesManager().getString("tasks");
+    final taskJson = PreferencesManager().getString(StorageKey.tasks);
     if (taskJson != null) {
       final taskAfterJsonDecode = jsonDecode(taskJson) as List<dynamic>;
       allTask = taskAfterJsonDecode.map((e) => TaskModel.fromJson(e)).toList();
@@ -57,7 +58,7 @@ class _TodoScreenState extends State<TodoScreen> {
         todoTasks.removeWhere((element) => element.id == id);
       });
       final updatedTask = allTask.map((e) => e.toJson()).toList();
-      PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+      PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
     }
   }
 
@@ -90,7 +91,9 @@ class _TodoScreenState extends State<TodoScreen> {
                       setState(() {
                         todoTasks[index!].isDone = value ?? false;
                       });
-                      final allData = PreferencesManager().getString("tasks");
+                      final allData = PreferencesManager().getString(
+                        StorageKey.tasks,
+                      );
                       if (allData != null) {
                         List<TaskModel> allTasksData =
                             (jsonDecode(allData) as List)
@@ -101,7 +104,7 @@ class _TodoScreenState extends State<TodoScreen> {
                         );
                         allTasksData[newIndex] = todoTasks[index!];
                         PreferencesManager().setString(
-                          "tasks",
+                          StorageKey.tasks,
                           jsonEncode(allTasksData),
                         );
                         _loadTask();

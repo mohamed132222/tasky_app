@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:tasky_app/core/components/sliver_task_list_widget.dart';
+import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/feature/home/components/archieved_task_widget.dart';
 import 'package:tasky_app/feature/home/components/high_priority_widget.dart';
@@ -41,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     setState(() {
-      username = PreferencesManager().getString("username");
-      quote = PreferencesManager().getString("quote");
-      imagePath = PreferencesManager().getString("image_path");
+      username = PreferencesManager().getString(StorageKey.userName);
+      quote = PreferencesManager().getString(StorageKey.quote);
+      imagePath = PreferencesManager().getString(StorageKey.imagePath);
       isLoading = false;
     });
   }
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
 
-    final taskJson = PreferencesManager().getString("tasks");
+    final taskJson = PreferencesManager().getString(StorageKey.tasks);
 
     List<TaskModel> loadedTasks = [];
     if (taskJson != null) {
@@ -82,17 +83,20 @@ class _HomeScreenState extends State<HomeScreen> {
       _calculatePercentage();
     });
     final updatedTask = tasks.map((e) => e.toJson()).toList();
-    await PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+    await PreferencesManager().setString(
+      StorageKey.tasks,
+      jsonEncode(updatedTask),
+    );
   }
 
   _onDelete(int? id) {
-    final taskJson = PreferencesManager().getString("tasks");
+    final taskJson = PreferencesManager().getString(StorageKey.tasks);
     if (taskJson != null) {
       setState(() {
         tasks.removeWhere((element) => element.id == id);
       });
       final updatedTask = tasks.map((e) => e.toJson()).toList();
-      PreferencesManager().setString("tasks", jsonEncode(updatedTask));
+      PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
     }
   }
 
