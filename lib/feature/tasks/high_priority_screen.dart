@@ -1,105 +1,44 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 
 import '../../core/components/task_list_widget.dart';
-import '../../core/constant/storage_key.dart';
-import '../../core/services/preferences_manager.dart';
-import '../../model/task_model.dart';
 
-class HighPriorityScreen extends StatefulWidget {
+class HighPriorityScreen extends StatelessWidget {
   const HighPriorityScreen({super.key});
 
   @override
-  State<HighPriorityScreen> createState() => _HighPriorityScreenState();
-}
-
-class _HighPriorityScreenState extends State<HighPriorityScreen> {
-  List<TaskModel> highPriorityTask = [];
-
-  bool isLoading = false;
-
-  @override
-  initState() {
-    super.initState();
-    _loadTask();
-  }
-
-  void _loadTask() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final taskJson = PreferencesManager().getString(StorageKey.tasks);
-    List<TaskModel> loadedTasks = [];
-    if (taskJson != null) {
-      final taskListAfterDecoded = jsonDecode(taskJson) as List<dynamic>;
-      loadedTasks = taskListAfterDecoded
-          .map((e) => TaskModel.fromJson(e))
-          .where((element) => element.isHighPriority)
-          .toList();
-    }
-    setState(() {
-      highPriorityTask = loadedTasks.reversed.toList();
-      isLoading = false;
-    });
-  }
-
-  _onDelete(int? id) async {
-    List<TaskModel> allTask = [];
-    if (id == null) return;
-    final taskJson = PreferencesManager().getString(StorageKey.tasks);
-    if (taskJson != null) {
-      final taskJsonAfterDecode = jsonDecode(taskJson) as List<dynamic>;
-      allTask = taskJsonAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
-      allTask.removeWhere((element) => element.id == id);
-      setState(() {
-        highPriorityTask.removeWhere((element) => element.id == id);
-      });
-      final updatedTask = allTask.map((e) => e.toJson()).toList();
-      PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("High Priority Screen")),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: isLoading
-            ? Center(child: CircularProgressIndicator(color: Color(0xFFFFFCFC)))
-            : TaskListWidget(
-                emptyMessage: "No Tasks",
-                onDelete: (index) => _onDelete(index),
-                onEdit: () {
-                  _loadTask();
-                },
-                onTap: (value, index) async {
-                  setState(() {
-                    highPriorityTask[index!].isDone = value ?? false;
-                  });
-                  final allData = PreferencesManager().getString(
-                    StorageKey.tasks,
-                  );
-                  if (allData != null) {
-                    List<TaskModel> allTasksData = (jsonDecode(allData) as List)
-                        .map((e) => TaskModel.fromJson(e))
-                        .toList();
-                    int newIndex = allTasksData.indexWhere(
-                      (element) => element.id == highPriorityTask[index!].id,
-                    );
-                    allTasksData[newIndex] = highPriorityTask[index!];
-                    PreferencesManager().setString(
-                      StorageKey.tasks,
-                      jsonEncode(allTasksData),
-                    );
-                    _loadTask();
-                  }
-                },
-                tasks: highPriorityTask,
-              ),
-      ),
+  Widget build(BuildContext _) {
+    return ChangeNotifierProvider<TasksController>(
+      create: (_) => TasksController()..init(),
+      builder: (context, _) {
+        final controller = context.read<TasksController>();
+        return Scaffold(
+          appBar: AppBar(title: Text("High Priority Screen")),
+          body: Padding(
+            padding: const EdgeInsets.all(16),
+            child: controller.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: Color(0xFFFFFCFC)),
+                  )
+                : Consumer<TasksController>(
+                    builder: (context, value, _) {
+                      return TaskListWidget(
+                        emptyMessage: "No Tasks",
+                        onDelete: (index) => controller.onDelete(index),
+                        onEdit: () {
+                          controller.init();
+                        },
+                        onTap: (value, index) async {
+                          controller.highPriorityTaskIsDone(value, index);
+                        },
+                        tasks: value.highPriorityTasks,
+                      );
+                    },
+                  ),
+          ),
+        );
+      },
     );
   }
 }
