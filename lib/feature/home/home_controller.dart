@@ -17,11 +17,11 @@ class HomeController with ChangeNotifier {
   double percentage = 0;
 
   void init() {
-    loadUser();
+    loadUserData();
     loadTask();
   }
 
-  void loadUser() async {
+  void loadUserData() async {
     isLoading = true;
 
     username = PreferencesManager().getString(StorageKey.userName);

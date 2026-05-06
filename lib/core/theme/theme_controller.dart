@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/storage_key.dart';
 
 import '../services/preferences_manager.dart';
 
@@ -8,17 +9,17 @@ class ThemeController {
   );
 
   init() {
-    bool result = PreferencesManager().getBool("theme") ?? true;
+    bool result = PreferencesManager().getBool(StorageKey.theme) ?? true;
     themeNotifier.value = result ? ThemeMode.dark : ThemeMode.light;
   }
 
   static toggleTheme() async {
     if (themeNotifier.value == ThemeMode.dark) {
       themeNotifier.value = ThemeMode.light;
-      await PreferencesManager().setBool("theme", false);
+      await PreferencesManager().setBool(StorageKey.theme, false);
     } else {
       themeNotifier.value = ThemeMode.dark;
-      await PreferencesManager().setBool("theme", true);
+      await PreferencesManager().setBool(StorageKey.theme, true);
     }
   }
 

@@ -1,51 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky_app/core/components/task_item_widget.dart';
-import 'package:tasky_app/model/task_model.dart';
+import 'package:tasky_app/feature/home/home_controller.dart';
 
 class SliverTaskListWidget extends StatelessWidget {
-  SliverTaskListWidget({
-    super.key,
-    required this.onTap,
-    required this.onEdit,
-    required this.onDelete,
-    this.emptyMessage,
-    required this.tasks,
-  });
+  SliverTaskListWidget({super.key});
 
-  List<TaskModel> tasks = [];
-  final Function(bool? value, int? index) onTap;
-  final Function onEdit;
-  final Function(int? index) onDelete;
   int? index;
-  String? emptyMessage;
 
   @override
   Widget build(BuildContext context) {
-    return tasks.isEmpty
-        ? SliverToBoxAdapter(
-            child: Center(
-              child: Text(
-                emptyMessage ?? "No Data",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xFFFFFCFC),
+    return Consumer<HomeController>(
+      builder: (context, controller, child) {
+        final controller = context.read<HomeController>();
+        final tasks = controller.tasks;
+
+        return controller.isLoading
+            ? const SliverToBoxAdapter(
+                child: Center(
+                  child: CircularProgressIndicator(color: Color(0xFFFFFCFC)),
                 ),
-              ),
-            ),
-          )
-        : SliverPadding(
-            padding: EdgeInsets.only(bottom: 60),
-            sliver: SliverList.separated(
-              separatorBuilder: (context, index) => SizedBox(height: 8),
-              itemBuilder: (context, index) => TaskItemWidget(
-                onDelete: (index) => onDelete(index),
-                onChange: (value) => onTap(value, index),
-                onEdit: () => onEdit(),
-                taskModel: tasks[index],
-              ),
-              itemCount: tasks.length,
-            ),
-          );
+              )
+            : tasks.isEmpty
+            ? SliverToBoxAdapter(
+                child: Center(
+                  child: Text(
+                    "No Data",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFFFFFCFC),
+                    ),
+                  ),
+                ),
+              )
+            : SliverPadding(
+                padding: EdgeInsets.only(bottom: 60),
+                sliver: SliverList.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: 8),
+                  itemBuilder: (context, index) => TaskItemWidget(
+                    onDelete: (index) => controller.onDelete(index),
+                    onChange: (value) => controller.isDoneLogic(value, index),
+                    onEdit: () => controller.loadTask(),
+                    taskModel: tasks[index],
+                  ),
+                  itemCount: tasks.length,
+                ),
+              );
+      },
+    );
   }
 }
