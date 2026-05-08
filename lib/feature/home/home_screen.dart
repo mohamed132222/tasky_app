@@ -7,6 +7,7 @@ import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/feature/home/components/archieved_task_widget.dart';
 import 'package:tasky_app/feature/home/components/high_priority_widget.dart';
 import 'package:tasky_app/feature/home/home_controller.dart';
+import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 
 import '../add_task/add_task_screen.dart';
 
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     print("build");
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<HomeController>(
       create: (context) => HomeController()..init(),
       child: Scaffold(
         body: SafeArea(
@@ -139,8 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialPageRoute(builder: (context) => AddTaskScreen()),
                 );
                 if (result != null && result) {
-                  final controller = context.read<HomeController>();
-                  controller.loadTask();
+                  context.read<TasksController>().init();
                 }
               },
               backgroundColor: const Color(0xFF15B86C),

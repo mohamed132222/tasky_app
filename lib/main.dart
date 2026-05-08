@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/light_theme.dart';
 import 'package:tasky_app/feature/navigation/main_screen.dart';
+import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 import 'package:tasky_app/feature/welcome/welcome_screen.dart';
 
 import 'core/constant/storage_key.dart';
@@ -26,12 +28,15 @@ class TaskyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
       builder: (context, ThemeMode value, child) {
-        return MaterialApp(
-          theme: lighTheme,
-          darkTheme: darkTheme,
-          themeMode: value,
-          debugShowCheckedModeBanner: false,
-          home: username == null ? WelcomeScreen() : MainScreen(),
+        return ChangeNotifierProvider<TasksController>(
+          create: (_) => TasksController()..init(),
+          child: MaterialApp(
+            theme: lighTheme,
+            darkTheme: darkTheme,
+            themeMode: value,
+            debugShowCheckedModeBanner: false,
+            home: username == null ? WelcomeScreen() : MainScreen(),
+          ),
         );
       },
       valueListenable: ThemeController.themeNotifier,

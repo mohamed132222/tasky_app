@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tasky_app/feature/home/home_controller.dart';
+import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 
 import '../../../core/theme/theme_controller.dart';
 
 class ArchievedTaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeController>(
-      builder: (context, controller, child) {
+    return Consumer<TasksController>(
+      builder: (context, TasksController controller, child) {
         return Container(
           width: double.infinity,
           padding: EdgeInsets.all(16),

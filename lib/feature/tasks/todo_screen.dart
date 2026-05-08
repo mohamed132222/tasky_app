@@ -7,48 +7,45 @@ class TodoScreen extends StatelessWidget {
   const TodoScreen({super.key});
 
   @override
-  Widget build(BuildContext _) {
-    return ChangeNotifierProvider<TasksController>(
-      create: (_) => TasksController()..init(),
-      builder: (context, _) {
-        final controller = context.read<TasksController>();
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "Todo Screen",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: controller.isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFFFFFCFC),
-                        ),
-                      )
-                    : Consumer<TasksController>(
-                        builder: (context, value, _) => TaskListWidget(
-                          emptyMessage: "No Tasks",
-                          onDelete: (index) => controller.onDelete(index),
-                          onEdit: () {
-                            controller.init();
-                          },
-                          onTap: (value, index) async {
-                            controller.todoTaskIsDone(value, index);
-                          },
-                          tasks: value.todoTasks,
-                        ),
-                      ),
-              ),
-            ),
-          ],
-        );
-      },
+  Widget build(BuildContext context) {
+    final controller = context.read<TasksController>();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            "Todo Screen",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: controller.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: Color(0xFFFFFCFC)),
+                  )
+                : Consumer<TasksController>(
+                    builder: (context, valueController, _) => TaskListWidget(
+                      tasks: valueController.todoTasks,
+                      emptyMessage: "No Tasks",
+                      onDelete: (index) => controller.onDelete(index),
+                      onEdit: () {
+                        controller.init();
+                      },
+                      onTap: (value, index) async {
+                        controller.doneTask(
+                          value,
+                          valueController.todoTasks[index!].id,
+                        );
+                      },
+                    ),
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }

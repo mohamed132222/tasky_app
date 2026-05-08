@@ -12,7 +12,9 @@ class TasksController with ChangeNotifier {
   List<TaskModel> todoTasks = [];
   List<TaskModel> completeTasks = [];
   List<TaskModel> highPriorityTasks = [];
-
+  int totalTasks = 0;
+  int totalDoneTasks = 0;
+  double percentage = 0;
   init() {
     _loadTasks();
   }
@@ -22,71 +24,58 @@ class TasksController with ChangeNotifier {
 
     final taskJson = PreferencesManager().getString(StorageKey.tasks);
 
-    List<TaskModel> loadedTasks = [];
     if (taskJson != null) {
       final taskListAfterDecoded = jsonDecode(taskJson) as List<dynamic>;
-      loadedTasks = taskListAfterDecoded
-          .map((e) => TaskModel.fromJson(e))
-          .toList();
+      tasks = taskListAfterDecoded.map((e) => TaskModel.fromJson(e)).toList();
+      _loadData();
     }
 
-    tasks = loadedTasks;
+    isLoading = false;
+    notifyListeners();
+  }
+
+  onDelete(int? id) async {
+    tasks.removeWhere((element) => element.id == id);
+    _loadData();
+    _calculatePercentage();
+
+    // todoTasks.removeWhere((element) => element.id == id);
+    // completeTasks.removeWhere((element) => element.id == id);
+    // highPriorityTasks.removeWhere((element) => element.id == id);
+    final updatedTask = tasks.map((e) => e.toJson()).toList();
+    PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
+
+    notifyListeners();
+  }
+
+  Future<void> doneTask(bool? value, int id) async {
+    final index = tasks.indexWhere((element) => element.id == id);
+
+    tasks[index].isDone = value ?? false;
+    _loadData();
+    _calculatePercentage();
+
+    final updatedTask = tasks.map((e) => e.toJson()).toList();
+    await PreferencesManager().setString(
+      StorageKey.tasks,
+      jsonEncode(updatedTask),
+    );
+    notifyListeners();
+  }
+
+  void _calculatePercentage() {
+    totalTasks = tasks.length;
+    totalDoneTasks = tasks.where((element) => element.isDone).length;
+    percentage = totalTasks == 0 ? 0 : totalDoneTasks / totalTasks;
+  }
+
+  void _loadData() {
     todoTasks = tasks.where((element) => !element.isDone).toList();
     completeTasks = tasks.where((element) => element.isDone).toList();
     highPriorityTasks = tasks
         .where((element) => element.isHighPriority)
         .toList();
-
-    //calculatePercentage();
-    isLoading = false;
-    notifyListeners();
-  }
-
-  Future<void> onDelete(int? id) async {
-    tasks.removeWhere((element) => element.id == id);
-    todoTasks.removeWhere((element) => element.id == id);
-    completeTasks.removeWhere((element) => element.id == id);
-    highPriorityTasks.removeWhere((element) => element.id == id);
-
-    final updatedTask = tasks.map((e) => e.toJson()).toList();
-    PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
-    notifyListeners();
-  }
-
-  void todoTaskIsDone(bool? value, int? index) async {
-    if (index == null) return;
-    todoTasks[index].isDone = value ?? false;
-
-    int newIndex = tasks.indexWhere(
-      (element) => element.id == todoTasks[index].id,
-    );
-    tasks[newIndex] = todoTasks[index];
-    PreferencesManager().setString(StorageKey.tasks, jsonEncode(tasks));
-    _loadTasks();
-  }
-
-  completeTaskIsDone(bool? value, int? index) async {
-    if (index == null) return;
-    completeTasks[index].isDone = value ?? false;
-
-    int newIndex = tasks.indexWhere(
-      (element) => element.id == completeTasks[index].id,
-    );
-    tasks[newIndex] = completeTasks[index];
-    PreferencesManager().setString(StorageKey.tasks, jsonEncode(tasks));
-    _loadTasks();
-    //
-  }
-
-  highPriorityTaskIsDone(bool? value, int? index) async {
-    if (index == null) return;
-    highPriorityTasks[index].isDone = value ?? false;
-
-    int newIndex = tasks.indexWhere(
-      (element) => element.id == highPriorityTasks[index].id,
-    );
-    tasks[newIndex] = highPriorityTasks[index];
-    PreferencesManager().setString(StorageKey.tasks, jsonEncode(tasks));
-    _loadTasks();
+    highPriorityTasks = highPriorityTasks.reversed.toList();
+    _calculatePercentage();
   }
 }
