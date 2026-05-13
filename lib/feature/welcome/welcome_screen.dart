@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
@@ -16,29 +17,29 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: AppSize.pw16),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                const SizedBox(height: 18),
+                SizedBox(height: AppSize.ph18),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomSvgPicture(
                       imgPath: "logo",
                       withFilterColor: false,
-                      height: 42,
-                      width: 42,
+                      height: AppSize.h42,
+                      width: AppSize.w42,
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: AppSize.pw16),
                     Text(
                       "Tasky",
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                   ],
                 ),
-                const SizedBox(height: 116),
+                SizedBox(height: AppSize.ph116),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -46,31 +47,31 @@ class WelcomeScreen extends StatelessWidget {
                       "Welcome To Tasky ",
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: AppSize.pw8),
                     CustomSvgPicture(
                       imgPath: "wave_hand",
                       withFilterColor: false,
-                      width: 28,
-                      height: 28,
+                      width: AppSize.w28,
+                      height: AppSize.h28,
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: AppSize.ph10),
                 Text(
                   "Your productivity journey starts here.",
                   style: Theme.of(
                     context,
-                  ).textTheme.displaySmall?.copyWith(fontSize: 16),
+                  ).textTheme.displaySmall?.copyWith(fontSize: AppSize.f16),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: AppSize.ph24),
                 CustomSvgPicture(
                   imgPath: "welcome_image",
                   withFilterColor: false,
-                  height: 204,
-                  width: 204,
+                  height: AppSize.h204,
+                  width: AppSize.w204,
                 ),
 
-                const SizedBox(height: 28),
+                SizedBox(height: AppSize.ph28),
                 CustomTextFormField(
                   title: "Full Name",
                   controller: controller,
@@ -83,7 +84,7 @@ class WelcomeScreen extends StatelessWidget {
                   hintText: "e.g. Sarah Khalid",
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: AppSize.ph24),
 
                 ElevatedButton(
                   onPressed: () async {
@@ -92,6 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                         StorageKey.userName,
                         controller.value.text,
                       );
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -108,14 +110,17 @@ class WelcomeScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
-                    fixedSize: Size(MediaQuery.of(context).size.width, 40),
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(100),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Let’s Get Started",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: AppSize.f16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 
 import '../../../core/theme/theme_controller.dart';
@@ -11,10 +12,13 @@ class ArchievedTaskWidget extends StatelessWidget {
       builder: (context, TasksController controller, child) {
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(
+            vertical: AppSize.ph16,
+            horizontal: AppSize.pw16,
+          ),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSize.r20),
             border: Border.all(
               color: ThemeController.isDark()
                   ? Colors.transparent
@@ -31,7 +35,7 @@ class ArchievedTaskWidget extends StatelessWidget {
                     "Achieved Tasks",
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: AppSize.ph4),
                   Text(
                     "${controller.totalDoneTasks} Out of ${controller.totalTasks} Done",
                     style: Theme.of(context).textTheme.headlineSmall,
@@ -42,8 +46,8 @@ class ArchievedTaskWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   SizedBox(
-                    width: 48,
-                    height: 48,
+                    width: AppSize.pw48,
+                    height: AppSize.ph48,
                     child: CircularProgressIndicator(
                       value: controller.percentage,
                       backgroundColor: const Color(0xFF6D6D6D),

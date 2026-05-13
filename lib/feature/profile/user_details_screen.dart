@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
@@ -45,7 +46,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("User Details")),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.pw16,
+          vertical: AppSize.ph16,
+        ),
         child: Form(
           key: _formKey,
           child: Column(
@@ -61,7 +65,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: AppSize.ph24),
               CustomTextFormField(
                 title: "Motivation Quote",
                 controller: motivationQuoteController,
@@ -76,7 +80,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.ph16,
+                  horizontal: AppSize.pw16,
+                ),
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -93,13 +100,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       Navigator.of(context).pop(true);
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size(MediaQuery.of(context).size.width, 42),
-                  ),
+
                   child: Text(
                     "Save Changes",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: AppSize.f14,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Poppins",
                       color: Color(0xFFFFFCFC),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String title;
@@ -22,7 +24,7 @@ class CustomTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: Theme.of(context).textTheme.labelSmall),
-        const SizedBox(height: 8),
+        SizedBox(height: AppSize.ph8),
         TextFormField(
           maxLines: maxline,
           validator: (value) => validator != null ? validator!(value) : null,

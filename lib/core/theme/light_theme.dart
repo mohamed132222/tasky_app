@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 
 ThemeData lighTheme = ThemeData(
   useMaterial3: true,
@@ -38,21 +39,20 @@ ThemeData lighTheme = ThemeData(
     }),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll(Color(0xFF15B86C)),
-      foregroundColor: WidgetStatePropertyAll(Color(0xFFFFFCFC)),
-      textStyle: WidgetStatePropertyAll(
-        TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          fontFamily: "Poppins",
-        ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Color(0xFF15B86C),
+      foregroundColor: Color(0xFFFFFCFC),
+      textStyle: TextStyle(
+        fontSize: AppSize.f14,
+        fontWeight: FontWeight.w500,
+        fontFamily: "Poppins",
       ),
+      minimumSize: Size.fromHeight(40),
     ),
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     extendedTextStyle: TextStyle(
-      fontSize: 14,
+      fontSize: AppSize.f14,
       fontWeight: FontWeight.w500,
       fontFamily: "Poppins",
     ),
@@ -60,43 +60,43 @@ ThemeData lighTheme = ThemeData(
 
   textTheme: TextTheme(
     displayLarge: TextStyle(
-      fontSize: 32,
+      fontSize: AppSize.f32,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
     ),
     displayMedium: TextStyle(
-      fontSize: 28,
+      fontSize: AppSize.f28,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
     ),
     displaySmall: TextStyle(
-      fontSize: 24,
+      fontSize: AppSize.f24,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
     ),
     headlineMedium: TextStyle(
-      fontSize: 16,
+      fontSize: AppSize.f16,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
     ),
     headlineSmall: TextStyle(
-      fontSize: 14,
+      fontSize: AppSize.f14,
       fontWeight: FontWeight.w400,
       color: Color(0xFF3A4640),
       fontFamily: "Poppins",
     ),
     labelSmall: TextStyle(
-      fontSize: 18,
+      fontSize: AppSize.f18,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
     ),
     titleLarge: TextStyle(
-      fontSize: 20,
+      fontSize: AppSize.f20,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
@@ -104,7 +104,7 @@ ThemeData lighTheme = ThemeData(
     //task is not done
     titleMedium: TextStyle(
       overflow: TextOverflow.ellipsis,
-      fontSize: 16,
+      fontSize: AppSize.f16,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
@@ -112,7 +112,7 @@ ThemeData lighTheme = ThemeData(
     //task is done
     titleSmall: TextStyle(
       overflow: TextOverflow.ellipsis,
-      fontSize: 16,
+      fontSize: AppSize.f16,
       fontWeight: FontWeight.w400,
       color: Color(0xFF6A6A6A),
       fontFamily: "Poppins",
@@ -124,32 +124,32 @@ ThemeData lighTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: const Color(0xFFFFFFFF),
-    hintStyle: const TextStyle(
+    hintStyle: TextStyle(
       color: Color(0xFF9E9E9E),
-      fontSize: 16,
+      fontSize: AppSize.f16,
       fontWeight: FontWeight.w400,
     ),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSize.r16),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: .5),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSize.r16),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: .5),
     ),
     focusColor: Color(0xFFD1DAD6),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSize.r16),
       borderSide: BorderSide(color: Color(0xFFD1DAD6), width: .5),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSize.r16),
       borderSide: BorderSide(color: Colors.red, width: .5),
     ),
   ),
   checkboxTheme: CheckboxThemeData(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadiusGeometry.circular(4),
+      borderRadius: BorderRadiusGeometry.circular(AppSize.r4),
     ),
     side: BorderSide(color: Color(0xFFD1DAD6), width: 2),
   ),
@@ -163,7 +163,7 @@ ThemeData lighTheme = ThemeData(
   listTileTheme: ListTileThemeData(
     titleTextStyle: TextStyle(
       overflow: TextOverflow.ellipsis,
-      fontSize: 16,
+      fontSize: AppSize.f16,
       fontWeight: FontWeight.w400,
       color: Color(0xFF161F1B),
       fontFamily: "Poppins",
@@ -175,12 +175,12 @@ ThemeData lighTheme = ThemeData(
     backgroundColor: Color(0xFFFFFCFC),
     type: BottomNavigationBarType.fixed,
     selectedLabelStyle: TextStyle(
-      fontSize: 12,
+      fontSize: AppSize.f12,
       fontWeight: FontWeight.w600,
       fontFamily: "Roboto",
     ),
     unselectedLabelStyle: TextStyle(
-      fontSize: 12,
+      fontSize: AppSize.f12,
       fontWeight: FontWeight.w500,
       fontFamily: "Roboto",
     ),
@@ -194,14 +194,14 @@ ThemeData lighTheme = ThemeData(
   ),
   popupMenuTheme: PopupMenuThemeData(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadiusGeometry.circular(20),
+      borderRadius: BorderRadiusGeometry.circular(AppSize.r20),
     ),
     color: Color(0xFFF6F7F9),
 
     elevation: 10,
     labelTextStyle: WidgetStatePropertyAll(
       TextStyle(
-        fontSize: 16,
+        fontSize: AppSize.f16,
         fontWeight: FontWeight.w400,
         color: Color(0xFF161F1B),
         fontFamily: "Poppins",

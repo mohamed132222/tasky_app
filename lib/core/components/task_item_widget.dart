@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/enums/popup_item_actions_enum.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
@@ -28,9 +29,9 @@ class TaskItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 72,
+      height: AppSize.h72,
       decoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.circular(20),
+        borderRadius: BorderRadiusGeometry.circular(AppSize.r20),
         border: Border.all(
           color: ThemeController.isDark()
               ? Colors.transparent
@@ -144,7 +145,10 @@ class TaskItemWidget extends StatelessWidget {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.pw16,
+            vertical: AppSize.ph16,
+          ),
           child: Form(
             key: formKey,
             child: Column(
@@ -165,7 +169,7 @@ class TaskItemWidget extends StatelessWidget {
                           },
                           hintText: "Finish UI design for login screen",
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: AppSize.ph20),
                         CustomTextFormField(
                           title: "Task Description",
                           controller: taskDescriptionController,
@@ -174,7 +178,7 @@ class TaskItemWidget extends StatelessWidget {
                               "Finish onboarding UI and hand off to devs by Thursday.",
                           maxline: 5,
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: AppSize.ph20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -198,9 +202,6 @@ class TaskItemWidget extends StatelessWidget {
                 ),
 
                 ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size(MediaQuery.of(context).size.width, 42),
-                  ),
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
                       List<dynamic> taskList = [];
@@ -230,7 +231,7 @@ class TaskItemWidget extends StatelessWidget {
                     }
                   },
                   label: const Text("Edit Task"),
-                  icon: const Icon(Icons.edit, size: 18),
+                  icon: Icon(Icons.edit, size: AppSize.r18),
                 ),
               ],
             ),

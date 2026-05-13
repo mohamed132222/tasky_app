@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky_app/core/components/sliver_task_list_widget.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/feature/home/components/archieved_task_widget.dart';
 import 'package:tasky_app/feature/home/components/high_priority_widget.dart';
@@ -27,7 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.symmetric(
+              vertical: AppSize.ph16,
+              horizontal: AppSize.pw16,
+            ),
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -37,9 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8.0,
-                              bottom: 22,
+                            padding: EdgeInsets.only(
+                              top: AppSize.ph8,
+                              bottom: AppSize.ph22,
                             ),
                             child: Selector<HomeController, String?>(
                               selector: (context, controller) =>
@@ -54,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: AppSize.pw8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -86,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: AppSize.ph16),
                       Text(
                         "Yuhuu ,Your work Is",
                         style: Theme.of(context).textTheme.displayLarge,
@@ -97,27 +101,29 @@ class _HomeScreenState extends State<HomeScreen> {
                             "almost done !",
                             style: Theme.of(context).textTheme.displayLarge,
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: AppSize.pw8),
                           CustomSvgPicture(
                             imgPath: "wave_hand",
                             withFilterColor: false,
-                            width: 28,
-                            height: 28,
+                            width: AppSize.pw28,
+                            height: AppSize.ph28,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: AppSize.ph16),
                       ArchievedTaskWidget(),
-                      const SizedBox(height: 8),
+                      SizedBox(height: AppSize.ph8),
                       HighPriorityWidget(),
-                      const SizedBox(height: 24),
+                      SizedBox(height: AppSize.ph24),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 16, top: 24),
+                        padding: EdgeInsets.only(
+                          bottom: AppSize.ph16,
+                          top: AppSize.ph24,
+                        ),
                         child: Text(
                           "My Tasks",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.displayMedium?.copyWith(fontSize: 20),
+                          style: Theme.of(context).textTheme.displayMedium
+                              ?.copyWith(fontSize: AppSize.f20),
                         ),
                       ),
                     ],
@@ -130,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
 
         floatingActionButton: SizedBox(
-          height: 42,
+          height: AppSize.ph42,
 
           child: Builder(
             builder: (context) => FloatingActionButton.extended(
@@ -146,10 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: const Color(0xFF15B86C),
               foregroundColor: const Color(0xFFFFFCFC),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppSize.r20),
               ),
               label: const Text("Add New Task"),
-              icon: const Icon(Icons.add, size: 20),
+              icon: Icon(Icons.add, size: AppSize.r20),
             ),
           ),
         ),

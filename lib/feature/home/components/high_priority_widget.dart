@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/feature/tasks/tasks_controller.dart';
@@ -17,10 +18,10 @@ class HighPriorityWidget extends StatelessWidget {
         final taskList = controller.tasks;
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: AppSize.ph8),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSize.r20),
             border: Border.all(
               color: ThemeController.isDark()
                   ? Colors.transparent
@@ -36,11 +37,14 @@ class HighPriorityWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: const Text(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSize.ph16,
+                        horizontal: AppSize.pw16,
+                      ),
+                      child: Text(
                         "High Priority Tasks",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: AppSize.f14,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Poppins",
                           color: Color(0xFF15B86C),
@@ -74,7 +78,7 @@ class HighPriorityWidget extends StatelessWidget {
                                 controller.doneTask(value, task.id);
                               },
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: AppSize.pw4),
                             Flexible(
                               child: Text(
                                 task.taskName,
@@ -102,20 +106,29 @@ class HighPriorityWidget extends StatelessWidget {
                   controller.init();
                 },
                 child: Container(
-                  height: 40,
-                  width: 40,
-                  padding: EdgeInsets.all(8),
-                  margin: EdgeInsets.all(16),
+                  height: AppSize.h40,
+                  width: AppSize.w40,
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSize.ph8,
+                    horizontal: AppSize.pw8,
+                  ),
+                  margin: EdgeInsets.symmetric(
+                    vertical: AppSize.ph16,
+                    horizontal: AppSize.pw16,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
-                    border: Border.all(color: Color(0xFF6E6E6E), width: 2),
+                    border: Border.all(
+                      color: Color(0xFF6E6E6E),
+                      width: AppSize.pw2,
+                    ),
                     shape: BoxShape.circle,
                   ),
                   child: CustomSvgPicture(
                     imgPath: "arrow_up_right",
                     withFilterColor: false,
-                    height: 24,
-                    width: 24,
+                    height: AppSize.ph24,
+                    width: AppSize.pw24,
                   ),
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/feature/add_task/add_task_controller.dart';
 
@@ -17,7 +18,10 @@ class AddTaskScreen extends StatelessWidget {
           appBar: AppBar(title: const Text("New Task")),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSize.pw16,
+                vertical: AppSize.ph8,
+              ),
               child: Form(
                 key: controller.formKey,
                 child: Column(
@@ -38,7 +42,7 @@ class AddTaskScreen extends StatelessWidget {
                               },
                               hintText: "Finish UI design for login screen",
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: AppSize.ph20),
                             CustomTextFormField(
                               title: "Task Description",
                               controller: controller.taskDescriptionController,
@@ -47,7 +51,7 @@ class AddTaskScreen extends StatelessWidget {
                                   "Finish onboarding UI and hand off to devs by Thursday.",
                               maxline: 5,
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: AppSize.ph20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -75,12 +79,9 @@ class AddTaskScreen extends StatelessWidget {
                     ),
 
                     ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 42),
-                      ),
                       onPressed: () => controller.addTask(context: context),
                       label: const Text("Add Task"),
-                      icon: const Icon(Icons.add, size: 18),
+                      icon: Icon(Icons.add, size: AppSize.r18),
                     ),
                   ],
                 ),

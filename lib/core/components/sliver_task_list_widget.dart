@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky_app/core/components/task_item_widget.dart';
 import 'package:tasky_app/feature/tasks/tasks_controller.dart';
@@ -26,18 +27,14 @@ class SliverTaskListWidget extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "No Data",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFFFFFCFC),
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
               )
             : SliverPadding(
-                padding: EdgeInsets.only(bottom: 60),
+                padding: EdgeInsets.only(bottom: 60.h),
                 sliver: SliverList.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 8),
+                  separatorBuilder: (context, index) => SizedBox(height: 8.h),
                   itemBuilder: (context, index) => TaskItemWidget(
                     onDelete: (index) => controller.onDelete(index),
                     onChange: (value) =>
