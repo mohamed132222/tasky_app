@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky_app/core/components/task_item_widget.dart';
+import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 
 class SliverTaskListWidget extends StatelessWidget {
@@ -32,9 +32,10 @@ class SliverTaskListWidget extends StatelessWidget {
                 ),
               )
             : SliverPadding(
-                padding: EdgeInsets.only(bottom: 60.h),
+                padding: EdgeInsets.only(bottom: AppSize.ph60),
                 sliver: SliverList.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 8.h),
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: AppSize.ph8),
                   itemBuilder: (context, index) => TaskItemWidget(
                     onDelete: (index) => controller.onDelete(index),
                     onChange: (value) =>

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tasky_app/core/constant/app_size.dart';
 
 class CustomTextFormField extends StatelessWidget {
