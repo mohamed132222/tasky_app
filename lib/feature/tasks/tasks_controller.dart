@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tasky_app/core/constant/storage_key.dart';
-import 'package:tasky_app/core/services/preferences_manager.dart';
+import 'package:tasky_app/core/services/file_manager_storage.dart';
 import 'package:tasky_app/model/task_model.dart';
 
 class TasksController with ChangeNotifier {
@@ -22,13 +22,10 @@ class TasksController with ChangeNotifier {
   void _loadTasks() async {
     isLoading = true;
 
-    final taskJson = PreferencesManager().getString(StorageKey.tasks);
-
-    if (taskJson != null) {
-      final taskListAfterDecoded = jsonDecode(taskJson) as List<dynamic>;
-      tasks = taskListAfterDecoded.map((e) => TaskModel.fromJson(e)).toList();
-      _loadData();
-    }
+    final taskData = await FileManagerStorage().loadTask();
+    tasks = taskData.map((e) => TaskModel.fromJson(e)).toList();
+    _loadData();
+    _calculatePercentage();
 
     isLoading = false;
     notifyListeners();
@@ -43,7 +40,7 @@ class TasksController with ChangeNotifier {
     // completeTasks.removeWhere((element) => element.id == id);
     // highPriorityTasks.removeWhere((element) => element.id == id);
     final updatedTask = tasks.map((e) => e.toJson()).toList();
-    PreferencesManager().setString(StorageKey.tasks, jsonEncode(updatedTask));
+    FileManagerStorage().saveTask(updatedTask);
 
     notifyListeners();
   }
@@ -56,10 +53,8 @@ class TasksController with ChangeNotifier {
     _calculatePercentage();
 
     final updatedTask = tasks.map((e) => e.toJson()).toList();
-    await PreferencesManager().setString(
-      StorageKey.tasks,
-      jsonEncode(updatedTask),
-    );
+    FileManagerStorage().saveTask(updatedTask);
+
     notifyListeners();
   }
 
@@ -77,5 +72,9 @@ class TasksController with ChangeNotifier {
         .toList();
     highPriorityTasks = highPriorityTasks.reversed.toList();
     _calculatePercentage();
+  }
+
+  void clearTask() {
+    _loadTasks();
   }
 }

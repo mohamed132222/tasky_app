@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/constant/storage_key.dart';
+import 'package:tasky_app/core/services/file_manager_storage.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/feature/profile/user_details_screen.dart';
+import 'package:tasky_app/feature/tasks/tasks_controller.dart';
 import 'package:tasky_app/feature/welcome/welcome_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -65,63 +68,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: AppSize.ph14),
                 Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: imagePath != null
-                                ? FileImage(File(imagePath!))
-                                : AssetImage(
-                                    "assets/images/Leading element.png",
-                                  ),
-                            radius: AppSize.r60,
-                          ),
-                          Positioned(
-                            child: GestureDetector(
-                              onTap: () {
-                                showImagePicker(context, (file) {
-                                  saveImagePath(file);
-                                  setState(() {
-                                    imagePath = file.path;
-                                  });
-                                });
-                              },
-                              child: Container(
-                                height: AppSize.h40,
-                                width: AppSize.w40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    AppSize.r100,
-                                  ),
-                                  border: Border.all(
+                      Center(
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: AssetImage(
+                                "assets/images/Leading element.png",
+                              ),
+                              radius: AppSize.r60,
+                            ),
+                            Positioned(
+                              child: GestureDetector(
+                                onTap: () {
+                                  showImagePicker(context, (file) {});
+                                },
+                                child: Container(
+                                  height: AppSize.h40,
+                                  width: AppSize.w40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      AppSize.r100,
+                                    ),
+                                    border: Border.all(
+                                      color: ThemeController.isDark()
+                                          ? Color(0xFF282828)
+                                          : Color(0xFFFFFFFF),
+                                      width: 2,
+                                    ),
                                     color: ThemeController.isDark()
                                         ? Color(0xFF282828)
                                         : Color(0xFFFFFFFF),
-                                    width: 2,
                                   ),
-                                  color: ThemeController.isDark()
-                                      ? Color(0xFF282828)
-                                      : Color(0xFFFFFFFF),
-                                ),
-                                child: Icon(
-                                  Icons.camera_alt,
-                                  size: AppSize.r24,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: AppSize.r24,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(height: AppSize.ph8),
                       Text(
                         userName ?? "",
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: AppSize.ph4),
                       Text(
                         quote,
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ],
@@ -186,7 +187,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () async {
                     PreferencesManager().remove(StorageKey.userName);
                     PreferencesManager().remove(StorageKey.quote);
-                    PreferencesManager().remove(StorageKey.tasks);
+
+                    await FileManagerStorage().clearTask();
+                    context.read<TasksController>().clearTask();
                     PreferencesManager().remove(StorageKey.imagePath);
                     Navigator.pushAndRemoveUntil(
                       context,

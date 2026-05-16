@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky_app/core/constant/app_size.dart';
 import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/enums/popup_item_actions_enum.dart';
+import 'package:tasky_app/core/services/file_manager_storage.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/model/task_model.dart';
@@ -205,12 +206,13 @@ class TaskItemWidget extends StatelessWidget {
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
                       List<dynamic> taskList = [];
-                      final taskJson = PreferencesManager().getString(
-                        StorageKey.tasks,
-                      );
-                      if (taskJson != null) {
-                        taskList = jsonDecode(taskJson);
-                      }
+                      taskList = await FileManagerStorage().loadTask();
+                      // final taskJson = PreferencesManager().getString(
+                      //   StorageKey.tasks,
+                      // );
+                      // if (taskJson != null) {
+                      //   taskList = jsonDecode(taskJson);
+                      // }
                       final item = taskList.firstWhere(
                         (element) => element['id'] == taskModel.id,
                       );
@@ -223,10 +225,11 @@ class TaskItemWidget extends StatelessWidget {
                         isDone: taskModel.isDone,
                       );
                       taskList[index] = newModel;
-                      await PreferencesManager().setString(
-                        StorageKey.tasks,
-                        jsonEncode(taskList),
-                      );
+                      FileManagerStorage().saveTask(taskList);
+                      // await PreferencesManager().setString(
+                      //   StorageKey.tasks,
+                      //   jsonEncode(taskList),
+                      // );
                       Navigator.of(context).pop(true);
                     }
                   },
