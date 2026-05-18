@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:tasky_app/core/constant/app_size.dart';
-import 'package:tasky_app/core/constant/storage_key.dart';
 import 'package:tasky_app/core/enums/popup_item_actions_enum.dart';
-import 'package:tasky_app/core/services/file_manager_storage.dart';
+import 'package:tasky_app/core/services/hive_manager_storage.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/model/task_model.dart';
 
-import '../services/preferences_manager.dart';
 import '../widgets/custom_check_box.dart';
 
 class TaskItemWidget extends StatelessWidget {
@@ -205,8 +201,8 @@ class TaskItemWidget extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
-                      List<dynamic> taskList = [];
-                      taskList = await FileManagerStorage().loadTask();
+                      List<TaskModel> taskList = [];
+                      taskList = HiveManagerStorage().loadTask();
                       // final taskJson = PreferencesManager().getString(
                       //   StorageKey.tasks,
                       // );
@@ -214,7 +210,7 @@ class TaskItemWidget extends StatelessWidget {
                       //   taskList = jsonDecode(taskJson);
                       // }
                       final item = taskList.firstWhere(
-                        (element) => element['id'] == taskModel.id,
+                        (element) => element.id == taskModel.id,
                       );
                       final index = taskList.indexOf(item);
                       TaskModel newModel = TaskModel(
@@ -225,7 +221,7 @@ class TaskItemWidget extends StatelessWidget {
                         isDone: taskModel.isDone,
                       );
                       taskList[index] = newModel;
-                      FileManagerStorage().saveTask(taskList);
+                      HiveManagerStorage().saveTask(taskList);
                       // await PreferencesManager().setString(
                       //   StorageKey.tasks,
                       //   jsonEncode(taskList),

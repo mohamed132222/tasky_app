@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:tasky_app/core/constant/storage_key.dart';
-import 'package:tasky_app/core/services/file_manager_storage.dart';
+import 'package:tasky_app/core/services/hive_manager_storage.dart';
 import 'package:tasky_app/model/task_model.dart';
 
 class TasksController with ChangeNotifier {
@@ -22,8 +19,8 @@ class TasksController with ChangeNotifier {
   void _loadTasks() async {
     isLoading = true;
 
-    final taskData = await FileManagerStorage().loadTask();
-    tasks = taskData.map((e) => TaskModel.fromJson(e)).toList();
+    tasks = HiveManagerStorage().loadTask();
+    //  tasks = taskData.map((e) => TaskModel.fromJson(e)).toList();
     _loadData();
     _calculatePercentage();
 
@@ -31,7 +28,7 @@ class TasksController with ChangeNotifier {
     notifyListeners();
   }
 
-  onDelete(int? id) async {
+  onDelete(int? id) {
     tasks.removeWhere((element) => element.id == id);
     _loadData();
     _calculatePercentage();
@@ -39,8 +36,8 @@ class TasksController with ChangeNotifier {
     // todoTasks.removeWhere((element) => element.id == id);
     // completeTasks.removeWhere((element) => element.id == id);
     // highPriorityTasks.removeWhere((element) => element.id == id);
-    final updatedTask = tasks.map((e) => e.toJson()).toList();
-    FileManagerStorage().saveTask(updatedTask);
+    // final updatedTask = tasks.map((e) => e.toJson()).toList();
+    HiveManagerStorage().saveTask(tasks);
 
     notifyListeners();
   }
@@ -52,8 +49,8 @@ class TasksController with ChangeNotifier {
     _loadData();
     _calculatePercentage();
 
-    final updatedTask = tasks.map((e) => e.toJson()).toList();
-    FileManagerStorage().saveTask(updatedTask);
+    // final updatedTask = tasks.map((e) => e.toJson()).toList();
+    HiveManagerStorage().saveTask(tasks);
 
     notifyListeners();
   }
